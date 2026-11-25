@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { supabase } from "../lib/supabase"
+import Resumen from "./Resumen"
 
 const ESTADOS: any = { pendiente_agendar: "Pendiente de agendar", agendada: "Agendada", completada: "Completada", reprogramada: "Reprogramada" }
 const aLocal = (iso: string) => { if (!iso) return ""; const d = new Date(iso); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 16) }
@@ -21,6 +22,7 @@ function Encuentro({ m }: { m: any }) {
   }
   const set = (k: string) => (e: any) => setF({ ...f, [k]: e.target.value })
   return (
+    <div>
     <form className="card" onSubmit={guardar}>
       <p className="eyebrow">{m.kind === "auditoria" ? "Auditoría" : "Mentoría"} {m.position}</p>
       <label htmlFor={"t" + m.id}>Título</label><input id={"t" + m.id} required value={f.title} onChange={set("title")} />
@@ -33,6 +35,8 @@ function Encuentro({ m }: { m: any }) {
       <button className="btn">Guardar encuentro</button>
       {msg && <p className={msg.ok ? "ok" : "err"} role="status">{msg.t}</p>}
     </form>
+    <Resumen m={m} />
+    </div>
   )
 }
 
