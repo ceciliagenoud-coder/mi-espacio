@@ -12,8 +12,9 @@ export default function Inicio({ profile, onGo }: { profile: any; onGo: (t: stri
       supabase.from("accompaniments").select("service_name").limit(1),
       supabase.from("meetings").select("*").order("position"),
       supabase.from("tasks").select("*"),
-      supabase.from("resources").select("*").order("published_at", { ascending: false }).limit(3)
-    ]).then(([a, m, t, r]) => setD({ servicio: a.data?.[0]?.service_name, m: m.data || [], t: t.data || [], r: r.data || [] }))
+      supabase.from("resources").select("*").order("published_at", { ascending: false }).limit(3),
+      supabase.from("exercises").select("id,title,status,due_date")
+    ]).then(([a, m, t, r, e]) => setD({ servicio: a.data?.[0]?.service_name, m: m.data || [], t: t.data || [], r: r.data || [], e: (e.data || []).filter((x: any) => x.status === "pendiente" || x.status === "en_proceso" || x.status === "necesita_correcciones") }))
   }, [])
   if (!d) return <p className="small">Cargando tu espacio…</p>
 
@@ -55,6 +56,7 @@ export default function Inicio({ profile, onGo }: { profile: any; onGo: (t: stri
         {d.r.length === 0 ? <p className="small">Todavía no tenés recursos asignados.</p> : d.r.map((r: any) => <p key={r.id} style={{ marginBottom: 8 }}><a href={r.url} target="_blank" rel="noopener noreferrer">{r.title}</a> <span className="small">· {R_FMT[r.format]}</span></p>)}
         <button className="lnk" onClick={() => onGo("res")}>Ver todos mis recursos</button></div>
     </div>
+    {d.e.length > 0 && <div className="card"><h2 style={{ marginTop: 0 }}>Ejercicios pendientes</h2>{d.e.map((x: any) => <p key={x.id} style={{ marginBottom: 8 }}>{x.title}{x.due_date && <span className="small"> · para el {x.due_date}</span>}</p>)}<button className="lnk" onClick={() => onGo("eje")}>Ir a mis ejercicios</button></div>}
     {WA && <div className="card"><h2 style={{ marginTop: 0 }}>¿Te quedó una duda?</h2><p className="small">Seguimos charlando por WhatsApp. Este espacio es para ordenar todo lo importante.</p>
       <p><a className="btn" style={{ textDecoration: "none", display: "inline-block" }} href={"https://wa.me/" + WA + "?text=" + encodeURIComponent("Hola Ceci, te escribo desde Mi espacio 🌻")} target="_blank" rel="noopener noreferrer">Escribime por WhatsApp</a></p></div>}
   </>)

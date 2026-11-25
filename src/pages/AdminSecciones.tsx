@@ -35,16 +35,17 @@ export function AdminTareas({ accId }: { accId: string }) {
   </>)
 }
 
-export function AdminRecursos({ accId }: { accId: string }) {
+export function AdminRecursos({ accId, cap, metas }: { accId: string; cap?: boolean; metas?: any[] }) {
+  const [mt, setMt] = useState(""); const [rol, setRol] = useState("complementario")
   const [all, setAll] = useState<any[]>([]); const [asg, setAsg] = useState<any[]>([]); const [sel, setSel] = useState(""); const [msg, setMsg] = useState("")
   async function cargar() {
     const r = await supabase.from("resources").select("id,title").order("title"); setAll(r.data || [])
-    const a = await supabase.from("resource_assignments").select("id,resource:resources(title)").eq("accompaniment_id", accId); setAsg(a.data || [])
+    const a = await supabase.from("resource_assignments").select("id,role,meeting_id,resource:resources(title)").eq("accompaniment_id", accId); setAsg(a.data || [])
   }
   useEffect(() => { cargar() }, [accId])
   async function asignar(e: React.FormEvent) {
     e.preventDefault(); setMsg(""); if (!sel) return setMsg("Elegí un recurso.")
-    const { error } = await supabase.from("resource_assignments").insert({ resource_id: sel, accompaniment_id: accId })
+    const { error } = await supabase.from("resource_assignments").insert({ resource_id: sel, accompaniment_id: accId, ...(cap ? { meeting_id: mt || null, role: rol } : {}) })
     if (error) return setMsg(error.code === "23505" ? "Ya tiene ese recurso asignado." : "No pudimos asignarlo.")
     cargar()
   }
@@ -53,10 +54,12 @@ export function AdminRecursos({ accId }: { accId: string }) {
     <form className="card" onSubmit={asignar}>
       <label htmlFor="rs">Elegí un recurso de tu biblioteca</label>
       <select id="rs" value={sel} onChange={e => setSel(e.target.value)}><option value="">Elegir…</option>{all.map(r => <option key={r.id} value={r.id}>{r.title}</option>)}</select>
+      {cap && <><label htmlFor="rm">Clase</label><select id="rm" value={mt} onChange={e => setMt(e.target.value)}><option value="">Sin clase específica</option>{(metas || []).map(m => <option key={m.id} value={m.id}>{m.title}</option>)}</select>
+      <label htmlFor="rr">Uso del material</label><select id="rr" value={rol} onChange={e => setRol(e.target.value)}><option value="antes">Obligatorio antes de la clase</option><option value="despues">Obligatorio después de la clase</option><option value="complementario">Complementario</option><option value="opcional">Consulta opcional</option></select></>}
       <button className="btn">Asignar recurso</button>{msg && <p className="err" role="status">{msg}</p>}
     </form>
     {asg.length === 0 && <p className="small">Todavía no le asignaste recursos.</p>}
-    {asg.map(a => <div className="card" key={a.id}>{a.resource?.title} <button className="lnk" style={{ marginLeft: 12 }} onClick={async () => { await supabase.from("resource_assignments").delete().eq("id", a.id); cargar() }}>Quitar</button></div>)}
+    {asg.map(a => <div className="card" key={a.id}>{a.resource?.title}{cap && <span className="small"> · {({ antes: "antes", despues: "después", complementario: "complementario", opcional: "opcional" } as any)[a.role]}</span>} <button className="lnk" style={{ marginLeft: 12 }} onClick={async () => { await supabase.from("resource_assignments").delete().eq("id", a.id); cargar() }}>Quitar</button></div>)}
   </>)
 }
 
