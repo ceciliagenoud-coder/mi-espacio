@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import { supabase } from "../lib/supabase"
 
 export default function Admin({ profile }: { profile: any }) {
   const [rows, setRows] = useState<any[]>([])
   const [tpls, setTpls] = useState<any[]>([])
-  const [f, setF] = useState({ name: "", email: "", template: "", start: new Date().toISOString().slice(0, 10) })
+  const [f, setF] = useState({ name: "", email: "", template: "", start: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10) })
   const [msg, setMsg] = useState<{ t: string; ok?: boolean } | null>(null)
   const [busy, setBusy] = useState(false)
 
@@ -46,7 +47,7 @@ export default function Admin({ profile }: { profile: any }) {
       <h2>Tus clientas</h2>
       {rows.length === 0 && <p className="small">Todavía no creaste ninguna clienta.</p>}
       {rows.map(r => (
-        <div className="card" key={r.id}><strong>{r.client?.full_name || r.client?.email}</strong>
+        <div className="card" key={r.id}><Link to={"/admin/clienta/" + r.id}><strong>{r.client?.full_name || r.client?.email}</strong></Link>
           <p className="small">{r.client?.email} · {r.service_name} · desde {r.start_date}</p><span className="badge">{r.status}</span></div>
       ))}
     </main>
