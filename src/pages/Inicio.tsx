@@ -33,7 +33,7 @@ export default function Inicio({ profile, onGo }: { profile: any; onGo: (t: stri
     <div className="grid2">
       <div className="card hero">
         <p className="eyebrow" style={{ color: "var(--durazno)" }}>Tu próximo encuentro</p>
-        {prox ? <><h2 style={{ margin: "6px 0", color: "#fff" }}>{prox.title}</h2><p>{fecha}<br /><span className="small" style={{ color: "var(--durazno)" }}>{profile.timezone}</span></p>
+        {prox ? <><h2 style={{ margin: "6px 0", color: "#fff" }}>{prox.title}</h2><p>{fecha}<br /><span className="small" style={{ color: "var(--durazno)" }}>Hora de {profile.timezone.split("/").pop().replace(/_/g, " ")}</span></p>
           <p style={{ marginTop: 14 }}>{prox.meet_url && <a className="btn" style={{ textDecoration: "none", display: "inline-block", marginRight: 8 }} href={prox.meet_url} target="_blank" rel="noopener noreferrer">Entrar a Google Meet</a>}
             <a className="btn sec" style={{ textDecoration: "none", display: "inline-block", color: "#fff", borderColor: "#fff", marginRight: 8 }} href={gcal} target="_blank" rel="noopener noreferrer">Agregar a Google Calendar</a>
             <button className="btn sec" style={{ color: "#fff", borderColor: "#fff" }} onClick={ics}>Descargar .ics</button></p></>

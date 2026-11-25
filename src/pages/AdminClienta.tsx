@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom"
 import { supabase } from "../lib/supabase"
 import Resumen from "./Resumen"
 import AdminAudit from "./AdminAudit"
+import AdminCierre from "./AdminCierre"
 import { AdminTareas, AdminRecursos, AdminNotas } from "./AdminSecciones"
 
 const ESTADOS: any = { pendiente_agendar: "Pendiente de agendar", agendada: "Agendada", completada: "Completada", reprogramada: "Reprogramada" }
@@ -62,6 +63,7 @@ export default function AdminClienta() {
       <AdminTareas accId={id!} />
       <AdminRecursos accId={id!} />
       {a?.client_id && <AdminNotas clientId={a.client_id} />}
+      <AdminCierre accId={id!} />
     </main>
   )
 }

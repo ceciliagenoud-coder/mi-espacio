@@ -12,7 +12,7 @@ export default function Recorrido({ profile }: { profile: any }) {
     supabase.from("meetings").select("*").order("position").then(({ data }) => setMeets(data || []))
     supabase.from("meeting_summaries").select("*").then(({ data }) => setSums(Object.fromEntries((data || []).map((x: any) => [x.meeting_id, x]))))
   }, [])
-  const fecha = (d: string) => d ? new Intl.DateTimeFormat("es-AR", { dateStyle: "full", timeStyle: "short", timeZone: profile.timezone }).format(new Date(d)) + " (" + profile.timezone + ")" : "Fecha a coordinar"
+  const fecha = (d: string) => d ? new Intl.DateTimeFormat("es-AR", { dateStyle: "full", timeStyle: "short", timeZone: profile.timezone }).format(new Date(d)) + " (hora de " + profile.timezone.split("/").pop().replace(/_/g, " ") + ")" : "Fecha a coordinar"
   return (
     <div>
       {meets === null && <p className="small">Cargando…</p>}
