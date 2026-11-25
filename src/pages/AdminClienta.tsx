@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { supabase } from "../lib/supabase"
 import Resumen from "./Resumen"
+import { AdminTareas, AdminRecursos, AdminNotas } from "./AdminSecciones"
 
 const ESTADOS: any = { pendiente_agendar: "Pendiente de agendar", agendada: "Agendada", completada: "Completada", reprogramada: "Reprogramada" }
 const aLocal = (iso: string) => { if (!iso) return ""; const d = new Date(iso); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 16) }
@@ -45,7 +46,7 @@ export default function AdminClienta() {
   const [a, setA] = useState<any>(null)
   const [meets, setMeets] = useState<any[] | null>(null)
   useEffect(() => {
-    supabase.from("accompaniments").select("service_name,status,start_date,client:profiles!accompaniments_client_id_fkey(full_name,email,timezone)").eq("id", id).single().then(({ data }) => setA(data))
+    supabase.from("accompaniments").select("client_id,service_name,status,start_date,client:profiles!accompaniments_client_id_fkey(full_name,email,timezone)").eq("id", id).single().then(({ data }) => setA(data))
     supabase.from("meetings").select("*").eq("accompaniment_id", id).order("position").then(({ data }) => setMeets(data || []))
   }, [id])
   return (
@@ -56,6 +57,9 @@ export default function AdminClienta() {
       <h2>Encuentros</h2>
       {meets === null && <p className="small">Cargando…</p>}
       {meets?.map(m => <Encuentro key={m.id} m={m} />)}
+      <AdminTareas accId={id!} />
+      <AdminRecursos accId={id!} />
+      {a?.client_id && <AdminNotas clientId={a.client_id} />}
     </main>
   )
 }

@@ -25,3 +25,10 @@ input,select{width:100%;font:inherit;padding:11px 14px;border-radius:12px;border
 .tools button{font:500 13px var(--font);padding:5px 12px;border-radius:99px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
 .rich h1,.rich h2,.rich h3{font-size:16px;margin:12px 0 4px}.rich ul,.rich ol{padding-left:22px}.rich p{margin:6px 0}.rich a{color:var(--vino)}
 .sec{border-left:4px solid var(--rosa);padding-left:14px;margin-top:14px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+.chip{font:500 13px var(--font);padding:8px 16px;border-radius:99px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--verde);border-color:var(--verde);color:var(--crema)}
+.bar{height:10px;border-radius:99px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:var(--rosa);border-radius:99px}
+textarea{width:100%;font:inherit;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);min-height:80px}
+.mine{border-left:4px solid var(--amarillo)}
+.lnk{background:none;border:0;color:var(--vino);font:600 13px var(--font);cursor:pointer;text-decoration:underline;padding:0;margin-right:12px}
