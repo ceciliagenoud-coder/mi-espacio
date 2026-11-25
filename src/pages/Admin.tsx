@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import Novedades from "../components/Novedades"
 import { supabase } from "../lib/supabase"
 
 export default function Admin({ profile }: { profile: any }) {
@@ -33,7 +34,7 @@ export default function Admin({ profile }: { profile: any }) {
   return (
     <main>
       <div className="top"><div><p className="eyebrow">Panel de administración</p><h1>Hola, {profile.full_name || "Ceci"} 🌻</h1></div>
-        <div><Link className="btn sec" style={{ textDecoration: "none", display: "inline-block", marginRight: 8 }} to="/admin/recursos">Biblioteca de recursos</Link><button className="btn sec" onClick={() => supabase.auth.signOut()}>Cerrar sesión</button></div></div>
+        <div><Link className="btn sec" style={{ textDecoration: "none", display: "inline-block", marginRight: 8 }} to="/admin/recursos">Biblioteca de recursos</Link><Novedades /><button className="btn sec" onClick={() => supabase.auth.signOut()}>Cerrar sesión</button></div></div>
       <h2>Crear nueva clienta</h2>
       <form className="card" onSubmit={invitar}>
         <label htmlFor="n">Nombre y apellido</label><input id="n" required maxLength={120} value={f.name} onChange={e => setF({ ...f, name: e.target.value })} />

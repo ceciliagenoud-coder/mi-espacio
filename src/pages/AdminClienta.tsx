@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { supabase } from "../lib/supabase"
 import Resumen from "./Resumen"
+import AdminAudit from "./AdminAudit"
 import { AdminTareas, AdminRecursos, AdminNotas } from "./AdminSecciones"
 
 const ESTADOS: any = { pendiente_agendar: "Pendiente de agendar", agendada: "Agendada", completada: "Completada", reprogramada: "Reprogramada" }
@@ -57,6 +58,7 @@ export default function AdminClienta() {
       <h2>Encuentros</h2>
       {meets === null && <p className="small">Cargando…</p>}
       {meets?.map(m => <Encuentro key={m.id} m={m} />)}
+      <AdminAudit accId={id!} />
       <AdminTareas accId={id!} />
       <AdminRecursos accId={id!} />
       {a?.client_id && <AdminNotas clientId={a.client_id} />}
