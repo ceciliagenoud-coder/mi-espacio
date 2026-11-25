@@ -25,7 +25,7 @@ export default function Clienta({ profile }: { profile: any }) {
       </nav>
       <main>
         <div className="top"><div><p className="eyebrow">Mi espacio</p><h1>Hola, {profile.full_name || "bienvenida"} 🌻</h1></div>
-          <div><Novedades /><button className="btn sec" onClick={() => supabase.auth.signOut()}>Cerrar sesión</button></div></div>
+          <div className="noprint"><Novedades /><button className="btn sec" onClick={() => supabase.auth.signOut()}>Cerrar sesión</button></div></div>
         {tab === "ini" && <Inicio profile={profile} onGo={go} />}
         {tab === "rec" && <Recorrido profile={profile} />}
         {tab === "aud" && <Auditorias />}

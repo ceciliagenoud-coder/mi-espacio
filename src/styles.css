@@ -48,3 +48,10 @@ textarea{width:100%;font:inherit;padding:11px 14px;border-radius:12px;border:1.5
   .nv{font-size:14px;text-align:left;padding:10px 14px}
   .nv:hover{background:rgba(255,255,255,.08)}
 }
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .noprint,.side{display:none!important}
+  body{background:#fff}.shell{padding:0!important}main{max-width:none;padding:0}
+  .card,.sec{break-inside:avoid}
+  @page{margin:16mm}
+}

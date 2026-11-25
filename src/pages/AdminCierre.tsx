@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 import { supabase } from "../lib/supabase"
 import Editor from "../components/Editor"
 
@@ -40,6 +41,7 @@ export default function AdminCierre({ accId }: { accId: string }) {
       <p className="small">Cuando pase esa fecha, la clienta ya no puede ingresar a su espacio.</p>
       <button className="btn sec" onClick={() => guardar("borrador")}>Guardar borrador</button>{" "}
       <button className="btn" onClick={() => guardar("publicado")}>{c.status === "publicado" ? "Actualizar ficha" : "Publicar ficha de cierre"}</button>{" "}
+      <Link className="btn sec" style={{ textDecoration: "none", display: "inline-block" }} to={"/admin/cierre/" + accId}>Vista para PDF</Link>{" "}
       {a.status !== "finalizado" && <button className="btn sec" onClick={finalizar}>Finalizar acompañamiento</button>}
       {msg && <p className={msg.ok ? "ok" : "err"} role="status">{msg.t}</p>}
       <h2>Feedback de la clienta</h2>

@@ -26,6 +26,7 @@ export default function Cierre() {
   const hechos = d.m.filter((x: any) => x.status === "completada"), tareas = d.t.filter((x: any) => x.status === "completada"), temas = d.s.map((x: any) => x.topics_done).filter(Boolean)
   const html = (h: string) => <div className="rich" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(h) }} />
   return (<>
+    <p className="noprint"><button className="btn sec" onClick={() => window.print()}>Descargar PDF</button></p>
     {d.c.closing_message && <div className="card hero"><p style={{ whiteSpace: "pre-wrap" }}>{d.c.closing_message}</p></div>}
     <div className="card"><h2 style={{ marginTop: 0 }}>Mirá todo lo que avanzaste</h2>
       {d.acc?.initial_goals && <p><span className="small">Objetivos iniciales</span><br />{d.acc.initial_goals}</p>}
@@ -34,7 +35,7 @@ export default function Cierre() {
       <p style={{ marginTop: 10 }}><span className="small">Acciones completadas: {tareas.length} de {d.t.length}</span></p>
       {CAMPOS.map(([k, l]) => d.c.content?.[k] && <div className="sec" key={k}><strong>{l}</strong>{html(d.c.content[k])}</div>)}
     </div>
-    <div className="card mine"><h2 style={{ marginTop: 0 }}>Tu opinión sobre la mentoría</h2>
+    <div className="card mine noprint"><h2 style={{ marginTop: 0 }}>Tu opinión sobre la mentoría</h2>
       {fb ? <p>¡Gracias por tu feedback! 🌻</p> : <form onSubmit={enviar}>
         <label htmlFor="fr">¿Cómo fue tu experiencia?</label>
         <select id="fr" value={f.rating} onChange={e => setF({ ...f, rating: e.target.value })}>{[5, 4, 3, 2, 1].map(n => <option key={n} value={n}>{n} de 5</option>)}</select>

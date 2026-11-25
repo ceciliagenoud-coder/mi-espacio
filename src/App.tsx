@@ -6,6 +6,7 @@ import SetPassword from "./pages/SetPassword"
 import Admin from "./pages/Admin"
 import Clienta from "./pages/Clienta"
 import Biblioteca from "./pages/Biblioteca"
+import CierrePdf from "./pages/CierrePdf"
 import AdminClienta from "./pages/AdminClienta"
 
 export default function App() {
@@ -33,6 +34,7 @@ export default function App() {
       <Route path="/admin" element={profile.role === "admin" ? <Admin profile={profile} /> : <Navigate to="/inicio" />} />
       <Route path="/admin/clienta/:id" element={profile.role === "admin" ? <AdminClienta /> : <Navigate to="/inicio" />} />
       <Route path="/admin/recursos" element={profile.role === "admin" ? <Biblioteca /> : <Navigate to="/inicio" />} />
+      <Route path="/admin/cierre/:id" element={profile.role === "admin" ? <CierrePdf /> : <Navigate to="/inicio" />} />
       <Route path="/inicio" element={profile.role === "clienta" ? <Clienta profile={profile} /> : <Navigate to="/admin" />} />
       <Route path="*" element={<Navigate to={home} />} />
     </Routes>
